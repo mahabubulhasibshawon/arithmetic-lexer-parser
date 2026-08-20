@@ -53,10 +53,19 @@ func (l *Lexer) NextToken() domain.Token {
 	default:
 		if unicode.IsDigit(rune(l.ch)) {
 			tok.Type = domain.TokenNumber
+			tok.Value = l.readNumber()
 			return tok
 		}
 		tok = domain.Token{Type: domain.TokenEof, Value: ""}
 	}
 	l.readChar()
 	return tok
+}
+
+func (l *Lexer) readNumber() string {
+	start := l.pos
+	for unicode.IsDigit(rune(l.ch)) || l.ch == '.' {
+		l.readChar()
+	}
+	return l.input[start:l.pos]
 }
