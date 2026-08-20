@@ -19,4 +19,12 @@ func (l *Lexer) readChar() {
 	} else {
 		l.ch = l.input[l.readPos]
 	}
+	l.pos = l.readPos
+	l.readPos++
+}
+
+func (l *Lexer) skipWhiteSpace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
 }
